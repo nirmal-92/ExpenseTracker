@@ -126,6 +126,7 @@ app.patch('/edit-expense/:id',async function(request,response){
         })
     }
 })
+
 app.patch('/edit-expense',async function(request,response){
     const expenseEntry = await Expense.findById(response.params.id)
     try{
