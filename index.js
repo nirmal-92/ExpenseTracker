@@ -97,6 +97,63 @@ app.delete('/delete-expense/:id',async function(request,response){
     }
 })
 
+app.patch('/edit-expense/:id',async function(request,response){
+    const expenseEntry = await Expense.findById(request.params.id)
+    try{
+        const expenseEntry = Expense.findById(request.params.id)
+        if(expenseEntry){
+            await expenseEntry.updateOne({
+                "amount" : request.body.amount,
+                "category" : request.body.category,
+                "date" : request.body.date
+            })
+            response.status(200).json({
+                "status" : "success",
+                "message" : "update entry success"
+            })
+        }
+        else{
+            response.status(404).json()({
+                "status" : "failure",
+                "message" : "could not update document"
+            })
+        }
+    }catch(error){
+        response.status(404).json()({
+            "status" : "failure",
+            "message" : "could not update document",
+            "error" : error
+        })
+    }
+})
+app.patch('/edit-expense',async function(request,response){
+    const expenseEntry = await Expense.findById(response.params.id)
+    try{
+        if(expenseEntry){
+            await expenseEntry.updateOne({
+                "amount" : request.body.amount,
+                "category" : request.body.category,
+                "date" : request.body.date
+            })
+            response.status(200).json({
+                "status" : "success",
+                "message" : "updated entry"
+            })
+        }
+        else{
+            response.status(200).json({
+                "status" : "failure",
+                "message" : "could not update document"
+            })
+        }
+    }
+    catch(error){
+        response.status(200).json({
+            "message" : "could not update document"
+        })
+    }
+})
+
 // const port=8000
 // app.listen(port,function(){
 //     console.log(Listening on port  ${port}...)
