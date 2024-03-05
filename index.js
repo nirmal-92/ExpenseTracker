@@ -25,7 +25,8 @@ app.use(bodyParser.json())
 async function connectToDb() {
     try {
         await mongoose.connect('mongodb+srv://Nirmal:6192@cluster0.1sy5sx7.mongodb.net/ExpenseTracker?retryWrites=true&w=majority&appName=Cluster0)')
-        const port = 8000
+        console.log('DB connection Established')
+        const port = process.env.port || 8000
         app.listen(port, function() {
             console.log(`Listening on port ${port}...`)
         })
