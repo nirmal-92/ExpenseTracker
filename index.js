@@ -20,22 +20,21 @@ const mongoose=require('mongoose')
 const express =require('express')
 const{Expense} = require('./schema.js')
 const app = express()
-app.use(bodyParser.json)
+app.use(bodyParser.json())
 
  async function connectToDb() {
-    await mongoose.connect('mongodb+srv://Nirmal:6192@cluster0.1sy5sx7.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0:)')
-    const port = 8000
-    app.listen(port, function() {
-        console.log('Listening on port ${port}...')
-    })
+    try {
+        await mongoose.connect('mongodb+srv://Nirmal:6192@cluster0.1sy5sx7.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0)')
+        const port = 8000
+        app.listen(port, function() {
+            console.log(`Listening on port ${port}...`)
+        })
+    } catch(error) {
+        console.log(error)
+        console.log('')
+    }
 }
 connectToDb()
-app.post('/add-expense',(request,response)=>{
-    console.log(request.body)
-    response.json ({
-        "status" : "created"  
-    })
-})
 
 app.post('/add-expense',async function(request,response){
     try{
