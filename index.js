@@ -24,7 +24,7 @@ app.use(bodyParser.json())
 
  async function connectToDb() {
     try {
-        await mongoose.connect('mongodb+srv://Nirmal:6192@cluster0.1sy5sx7.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0)')
+        await mongoose.connect('mongodb+srv://Nirmal:6192@cluster0.1sy5sx7.mongodb.net/ExpenseTracker?retryWrites=true&w=majority&appName=Cluster0)')
         const port = 8000
         app.listen(port, function() {
             console.log(`Listening on port ${port}...`)
@@ -51,6 +51,19 @@ app.post('/add-expense',async function(request,response){
         response.status(201).json({
             "status" : "failure",
             "message" : "new entry created",
+            "error" : error
+        })
+    }
+})
+
+app.get('/get-expenses', async function(request,response){
+    try{
+        const expenseData = await Expense.find()
+        response.status(200).json(expenseData)
+    }catch{
+        response.status(500).json({
+            "status" : "failure",
+            "message" : "could not fetch entries",
             "error" : error
         })
     }
